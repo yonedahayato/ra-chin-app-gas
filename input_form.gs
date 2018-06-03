@@ -28,7 +28,7 @@ function getSelectListFromMasterSS() {
   var selectList = [];
 
   // マスタデータシートを取得
-  var datasheet = SpreadsheetApp.openById('1E2VMlYvO-8XFrT9nI7xKI5TNWTvUlJtuOavnwtoO-FI').getSheetByName('master');
+  var datasheet = SpreadsheetApp.openById('1E2VMlYvO-8XFrT9nI7xKI5TNWTvUlJtuOavnwtoO-FI').getSheetByName('user_master');
   // B列2行目のデータからB列の最終行までを取得 
   var lastRow = datasheet.getRange("B:B").getValues().filter(String).length - 1;
   Logger.log("lastRow = %s", lastRow);

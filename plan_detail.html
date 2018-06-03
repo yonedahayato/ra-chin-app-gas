@@ -40,8 +40,14 @@
         
         <div class="form-group">
             <label class="control-label col-xs-3" for="plan_name">企画名</label>
+            
             <div class="col-xs-9">
-                <input type="text" class="form-control" id="plan_name" required>
+                <?
+                output.append('<input type="text" class="form-control" id="plan_name" value='+ Data_Record[1] +' required>')
+                ?>
+                <!--
+                <input type="text" class="form-control" id="plan_name" value="" required>
+                -->
                 <div class="help-block with-errors"></div>
             </div>
         </div>
