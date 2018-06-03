@@ -12,7 +12,7 @@
       var LastRow = sheet.getRange("A1:A").getLastRow();
       var indicateRow = calculateLastRow_down(sheet, LastRow, 1);
       
-      var Data_Matrix = SpreadsheetApp.getActiveSheet().getRange(2, 1, indicateRow-1-1, 8).getValues();
+      var Data_Matrix = SpreadsheetApp.getActiveSheet().getRange(2, 1, indicateRow-1-1, 9).getValues();
       var Data_Record = Data_Matrix[number-1]
       
       for(var i=0; i<Data_Record.length; i++){
@@ -33,7 +33,12 @@
         <div class="form-group">
             <label class="control-label col-xs-3">User Name</label>
             <div class="col-xs-9">
+                <?
+                output.append('<select class="form-control" id="select_id3" value="' + Data_Record[8] + '"></select>')
+                ?>
+                <!--
                 <select class="form-control" id="select_id3"></select>
+                -->
                 <div class="help-block with-errors"></div>
             </div>
         </div>
@@ -56,18 +61,29 @@
             <label class="control-label col-xs-3">タイプ</label>
             <div class="col-xs-9">
                 <div class="radio" id="radiobutton1">
-                    <label><input type="radio" name="radio1" id="solo" required>ソロ-らぁ珍</label>
-                    <label><input type="radio" name="radio1" id="middle" required>ミドル-らぁ珍</label>
-                    <label><input type="radio" name="radio1" id="all" required>オール-らぁ珍</label>
+                    <?
+                      var check_solo = check_type("ソロ", Data_Record[2]);
+                      var check_middle = check_type("ミドル", Data_Record[2]);
+                      var check_all = check_type("オール", Data_Record[2]);
+                      output.append('<label><input type="radio" name="radio1" id="solo" required ' + check_solo +'>ソロ-らぁ珍</label>');
+                      output.append('<label><input type="radio" name="radio1" id="middle" required ' + check_middle +'>ミドル-らぁ珍</label>');
+                      output.append('<label><input type="radio" name="radio1" id="all" required ' + check_all +'>オール-らぁ珍</label>');
+                    ?>
                 </div>
                 <div class="help-block with-errors"></div>
             </div>
         </div>
         
         <div class="form-group">
+            <?
+              var schedule_data = get_Schedule(number);
+            ?>
             <label class="control-label col-xs-3">候補日1</label>
             <div class="col-xs-9">
-                <input type="text" class="form-control xxdate" id="candidate_date1" >
+                <?
+                  var date_1 = String(schedule_data["候補日1"]);
+                  output.append('<input type="text" class="form-control xxdate" id="candidate_date1" value="' + date_1 + '">');
+                ?>
                 <div class="help-block with-errors"></div>
             </div>
         </div>
@@ -75,7 +91,10 @@
         <div class="form-group">
             <label class="control-label col-xs-3">候補日2</label>
             <div class="col-xs-9">
-                <input type="text" class="form-control xxdate" id="candidate_date2" >
+                <?
+                  var date_2 = String(schedule_data["候補日2"]);
+                  output.append('<input type="text" class="form-control xxdate" id="candidate_date2" value="' + date_2 + '">');
+                ?>
                 <div class="help-block with-errors"></div>
             </div>
         </div>
@@ -83,7 +102,10 @@
         <div class="form-group">
             <label class="control-label col-xs-3">候補日3</label>
             <div class="col-xs-9">
-                <input type="text" class="form-control xxdate" id="candidate_date3" >
+                <?
+                  var date_3 = String(schedule_data["候補日3"]);
+                  output.append('<input type="text" class="form-control xxdate" id="candidate_date3" value="' + date_3 + '">');
+                ?>
                 <div class="help-block with-errors"></div>
             </div>
         </div>
@@ -91,7 +113,10 @@
         <div class="form-group">
             <label class="control-label col-xs-3">締切日</label>
             <div class="col-xs-9">
-                <input type="text" class="form-control xxdate" id="deadline" >
+                <?
+                  var deadline = String(schedule_data["締切日"]);
+                  output.append('<input type="text" class="form-control xxdate" id="deadline" value="' + deadline + '">');
+                ?>
                 <div class="help-block with-errors"></div>
             </div>
         </div>
@@ -105,9 +130,9 @@
         </div>
         
     </form>
-<i id="processing" class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-</div>
-<?!= HtmlService.createHtmlOutputFromFile('javascript_detail').getContent(); ?>
+  <i id="processing" class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+  </div>
+  <?!= HtmlService.createHtmlOutputFromFile('javascript_detail').getContent(); ?>
   </body>
 </html>
 
