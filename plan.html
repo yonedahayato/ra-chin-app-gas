@@ -7,11 +7,23 @@
   </head>
   <body>  
     <ul>
+      <?
+      var sheet = SpreadsheetApp.getActiveSheet();
+      var LastRow = sheet.getRange("A1:A").getLastRow();
+      var last_number = calculateLastRow_down(sheet, LastRow, 1) - 1; 
+      
+      for(var i=1;i<last_number;i++){
+        output.append('<p><button onclick="go_DetailPage(' + i + ')">企画'+ i +'</button></p>');
+      }
+      ?>
+      <!--
       <p><button onclick="go_DetailPage(1)">企画1</button></p>
       <p><button onclick="go_DetailPage(2)">企画2</button></p>
       <p><button onclick="go_DetailPage(3)">企画3</button></p>
       <p><button onclick="go_DetailPage(4)">企画4</button></p>
       <p><button onclick="go_DetailPage(5)">企画5</button></p>
+      -->
+
     </ul>
 
     <p><button onclick="go_newpage('True')">go new page</button></p>
