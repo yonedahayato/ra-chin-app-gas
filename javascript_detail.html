@@ -1,0 +1,177 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/7bcbed1321.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.8/validator.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+/**
+ コード.jsのgetSelectListFromSS()を読んで、スプレッドシートのデータをもとに、セレクトボックスを構築する
+*/
+function getSelectList() {
+    try {
+        google.script.run
+            .withSuccessHandler(function(result) {
+                /**このresultは getSelectListFroMasterSSの戻り値 */
+
+                console.log("result", result);
+
+                var select = document.getElementById('select_id3');
+                var option = document.createElement('option');
+                option.setAttribute('value', '');
+                option.setAttribute('selected', true);
+                option.innerHTML = '未選択';
+                select.appendChild(option);
+
+                for (var i = 0; i < result.data.length; i++) {
+                    option = document.createElement('option');
+                    option.setAttribute('value', i + 1);
+                    option.innerHTML = result.data[i];
+                    select.appendChild(option);
+                }
+
+
+            })
+            .withFailureHandler(function(result) {
+                toastr.error('リストの取得に失敗しました。', result);
+                /** toastr: 通知 */
+            })
+            .getSelectListFromMasterSS();
+
+    } catch (e) {
+        toastr.error(e);
+        /** toastr: 通知 */
+    }
+}
+
+/**
+ コード.jsのregisterSSByFormData()を呼んで、フォームの内容をスプレッドシートに登録する
+*/
+function sendData() {
+
+    try {
+
+        processing(true);
+
+        var elemntIFrame = window.parent.document.getElementById('userHtmlFrame');
+        elemntIFrame.setAttribute('scrolling', 'no');
+        elemntIFrame.setAttribute('frameborder', '0');
+
+        console.log("document.getElementById('select_id2').selectedIndex)", document.getElementById('select_id2').selectedIndex);
+
+        var data = [];
+        data[0] = 'dummy';
+        data[1] = document.getElementById('input_id1').value;
+        data[2] = document.getElementById('input_id2').value;
+        data[3] = document.getElementById('input_id3').checked;
+        data[4] = document.getElementById('input_id4').checked;
+        data[5] = document.getElementById('input_id5').checked;
+        data[6] = document.getElementById('input_id6').checked;
+        data[7] = document.getElementById('input_id7').checked;
+        data[8] = document.getElementById('input_id8').checked;
+        data[9] = document.getElementById('select_id1').options[document.getElementById('select_id1').selectedIndex].text;
+        data[10] = getMultipleSelectedText(document.getElementById('select_id2').options);
+        data[11] = document.getElementById('select_id3').options[document.getElementById('select_id3').selectedIndex].text;
+
+        console.log("data", data);
+
+
+        google.script.run
+            .withSuccessHandler(function(result) {
+                processing(false);
+                if (result.data) {
+                    toastr.info('送信完了');
+                } else {
+                    toastr.error('送信失敗しました');
+                }
+            })
+            .withFailureHandler(function(result) {
+                processing(false);
+                toastr.error('データ送信に失敗しました。', result);
+            })
+            .registerSSByFormData(data);
+
+    } catch (e) {
+        processing(false);
+        toastr.error(e);
+    }
+
+}
+
+// multipeセレクトをカンマ区切りのテキストにして取得
+function getMultipleSelectedText(selectOptions){
+  console.log(selectOptions, selectOptions.length);
+  var arr = [];
+  for(var i = 0; i < selectOptions.length; i++) {
+    if(selectOptions[i].selected){
+      arr.push(selectOptions[i].value);
+    }
+  }
+  return arr.join(',');
+}
+
+// 処理中アイコン表示・非表示
+function processing(processing) {
+    if (processing) {
+        document.getElementById('processing').style.visibility = "visible";
+        document.getElementById('send_button').setAttribute("disabled", true);
+    } else {
+        document.getElementById('processing').style.visibility = "hidden";
+        document.getElementById('send_button').removeAttribute("disabled");
+    }
+}
+
+// ロード完了後の処理
+$(function() {
+    // トースト通知の位置指定
+    toastr.options.positionClass = "toast-bottom-left";
+    // バリデーションチェック有効化
+    $('#myForm').validator();
+    // 処理中アイコン非表示
+    processing(false);
+    // セレクトボックスのリストを動的に取得する
+    getSelectList();
+
+    // submit時のイベント登録
+    $('#myForm').validator().on('submit', function(e) {
+        if (document.getElementById('send_button').className.indexOf("disabled") != -1) {
+            // submit用のボタンのスタイルにdisabledが設定されていればバリデーションエラー
+        } else {
+            // バリデーションエラーでなければ送信
+            sendData();
+        }
+    })
+});
+
+$(function() {
+  $(".xxdate").datepicker( {
+    numberOfMonths: 3,     // 3ヶ月分表示
+    showCurrentAtPos: 1,   // 表示位置は左から2番目 (真ん中)
+    stepMonths: 3,         // 月の移動を3ヶ月単位とする
+    showButtonPanel: true, // ボタン領域を表示
+    gotoCurrent: true      // ボタン領域に「今日」ボタンを表示
+  } );
+ 
+  // 日本語化
+  $.datepicker.regional['ja'] = {
+    closeText: '閉じる',
+    prevText: '<前',
+    nextText: '次>',
+    currentText: '今日',
+    monthNames: ['1月','2月','3月','4月','5月','6月',
+    '7月','8月','9月','10月','11月','12月'],
+    monthNamesShort: ['1月','2月','3月','4月','5月','6月',
+    '7月','8月','9月','10月','11月','12月'],
+    dayNames: ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'],
+    dayNamesShort: ['日','月','火','水','木','金','土'],
+    dayNamesMin: ['日','月','火','水','木','金','土'],
+    weekHeader: '週',
+    dateFormat: 'yy/mm/dd',
+    firstDay: 0,
+    isRTL: false,
+    showMonthAfterYear: true,
+    yearSuffix: '年'};
+  $.datepicker.setDefaults($.datepicker.regional['ja']);
+});
+</script>

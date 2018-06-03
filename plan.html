@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script src="//www.google.com/jsapi"></script>
+    <script>window.parent.maeExportApis_();</script>
+  </head>
+  <body>  
+    <ul>
+      <p><button onclick="go_DetailPage(1)">企画1</button></p>
+      <p><button onclick="go_DetailPage(2)">企画2</button></p>
+      <p><button onclick="go_DetailPage(3)">企画3</button></p>
+      <p><button onclick="go_DetailPage(4)">企画4</button></p>
+      <p><button onclick="go_DetailPage(5)">企画5</button></p>
+    </ul>
+
+    <p><button onclick="go_newpage('True')">go new page</button></p>
+    
+  <script>
+    function go_newpage(botton) {
+      google.script.run.insertNewInfo('True')
+      window.top.location.href = "https://sites.google.com/view/ra-chin-main/home/plan"
+    }
+    function go_DetailPage(number) {
+      google.script.run.updateRecord(number)
+      window.top.location.href = "https://sites.google.com/view/ra-chin-main/home/plan/plan_detail"
+    }
+  </script>
+  
+  </body>
+  <script>
+    function go_newpage(botton) {
+      google.script.run.insertNewInfo('True')
+      window.top.location.href = "https://sites.google.com/view/ra-chin-main/home/plan"
+    }
+    function go_DetailPage(number) {
+      google.script.run.updateRecord(number)
+      window.top.location.href = "https://sites.google.com/view/ra-chin-main/home/plan/plan_detail"
+    }
+  </script>
+  </body>
+</html>

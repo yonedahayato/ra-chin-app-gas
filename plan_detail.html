@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <?!= HtmlService.createHtmlOutputFromFile('stylesheet_detail').getContent(); ?>
+  </head>
+  <body>
+    <?
+      var sheet = SpreadsheetApp.getActiveSheet();
+      var LastRow = sheet.getRange("A1:A").getLastRow();
+      var indicateRow = calculateLastRow_down(sheet, LastRow, 1);
+      
+      var Data_Matrix = SpreadsheetApp.getActiveSheet().getRange(2, 1, indicateRow-1-1, 8).getValues();
+      var Data_Record = Data_Matrix[number-1]
+      
+      for(var i=0; i<Data_Record.length; i++){
+      　 output.append('<li>' + Data_Record[i] + '</li>');
+      }
+    ?>
+    <p>企画　<?= number ?></p>
+
+
+    <nav class="navbar navbar-inverse">
+      <div class="navbar-header"><a class="navbar-brand" href="#">入力</a></div>
+    </nav>
+
+    <div class="container">
+      <form class="form-horizontal" id="myForm" onsubmit="return false;">
+
+
+        <div class="form-group">
+            <label class="control-label col-xs-3">User Name</label>
+            <div class="col-xs-9">
+                <select class="form-control" id="select_id3"></select>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label col-xs-3" for="plan_name">企画名</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" id="plan_name" required>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label col-xs-3">タイプ</label>
+            <div class="col-xs-9">
+                <div class="radio" id="radiobutton1">
+                    <label><input type="radio" name="radio1" id="solo" required>ソロ-らぁ珍</label>
+                    <label><input type="radio" name="radio1" id="middle" required>ミドル-らぁ珍</label>
+                    <label><input type="radio" name="radio1" id="all" required>オール-らぁ珍</label>
+                </div>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label col-xs-3">候補日1</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control xxdate" id="candidate_date1" >
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-3">候補日2</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control xxdate" id="candidate_date2" >
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label col-xs-3">候補日3</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control xxdate" id="candidate_date3" >
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-3">締切日</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control xxdate" id="deadline" >
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-9">
+                <button id="send_button" type="submit" class="btn btn-primary btn-large">
+                  <i class="fa fa-send fa-lg"></i>送信
+                </button>
+            </div>
+        </div>
+        
+    </form>
+<i id="processing" class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+</div>
+<?!= HtmlService.createHtmlOutputFromFile('javascript_detail').getContent(); ?>
+  </body>
+</html>
+
+
