@@ -51,16 +51,7 @@ function check_type(type_str, input_type_str){
 
 function get_Schedule(schedule_number){
   url = "https://script.google.com/macros/s/AKfycbzGwsn2XHNP5Pt2A3q9_rGy0pTJR06eLqeG3lT9Th5kuNmFwYc/exec?schedule_number="+schedule_number
-  //url = "https://script.google.com/macros/s/AKfycbzGwsn2XHNP5Pt2A3q9_rGy0pTJR06eLqeG3lT9Th5kuNmFwYc/exec"
-  // POSTデータ
-  //var payload = {
-  //  "schedule_number" : schedule_number
-  //};
-  // POSTオプション
-  //var options = {
-  //  "method" : "GET",
-  //  "payload" : payload
-  //};
+
   var response = UrlFetchApp.fetch(url);
   Logger.log(response)
   var json_out　=　JSON.parse(response);

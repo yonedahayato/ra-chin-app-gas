@@ -17,12 +17,12 @@ function getSelectList() {
 
                 console.log("result", result);
 
-                var select = document.getElementById('select_id3');
+                var select = document.getElementById('user_name');
                 var option = document.createElement('option');
-                option.setAttribute('value', '');
-                option.setAttribute('selected', true);
-                option.innerHTML = '未選択';
-                select.appendChild(option);
+                //option.setAttribute('value', '');
+                //option.setAttribute('selected', true);
+                //option.innerHTML = '未選択';
+                //select.appendChild(option);
 
                 for (var i = 0; i < result.data.length; i++) {
                     option = document.createElement('option');

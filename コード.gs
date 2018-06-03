@@ -37,7 +37,7 @@ function insertNewInfo(button) {
   insertNum = calculateLastRow_down(sheet, LastRow, 1)
   
   arrData = [
-    ["企画" + String(insertNum-1), "企画名", "タイプ", "スケジュール", "店", "集合場所", "-", insertNum-1]
+    ["企画" + String(insertNum-1), "企画名", "タイプ", "スケジュール", "店", "集合場所", "-", insertNum-1, "-"]
   ];
 
   var rows = arrData.length;

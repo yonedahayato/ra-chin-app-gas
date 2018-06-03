@@ -34,11 +34,16 @@
             <label class="control-label col-xs-3">User Name</label>
             <div class="col-xs-9">
                 <?
-                output.append('<select class="form-control" id="select_id3" value="' + Data_Record[8] + '"></select>')
+                //output.append('<select class="form-control" id="user_name" value="' + Data_Record[8] + '"></select>')
                 ?>
-                <!--
-                <select class="form-control" id="select_id3"></select>
-                -->
+                <select class="form-control" id="user_name">
+                  <?
+                  output.append('<option value="new_user" selected>' + Data_Record[8] + '</option>')
+                  ?>
+                  <!--
+                  <option value="new_user" selected>new_user</option>
+                  -->
+                </select>
                 <div class="help-block with-errors"></div>
             </div>
         </div>
@@ -50,9 +55,6 @@
                 <?
                 output.append('<input type="text" class="form-control" id="plan_name" value='+ Data_Record[1] +' required>')
                 ?>
-                <!--
-                <input type="text" class="form-control" id="plan_name" value="" required>
-                -->
                 <div class="help-block with-errors"></div>
             </div>
         </div>
