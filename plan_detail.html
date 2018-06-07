@@ -19,8 +19,13 @@
       　 output.append('<li>' + Data_Record[i] + '</li>');
       }
     ?>
-    <p>企画　<?= number ?></p>
-
+    
+    <?
+      output.append('<data value="' + number + '" id="plan_number">企画　' + number +'</data>');
+    ?>
+    <!--
+    <data value="1" id="plan_number">企画<?= number ?></data>
+    -->
 
     <nav class="navbar navbar-inverse">
       <div class="navbar-header"><a class="navbar-brand" href="#">入力</a></div>
@@ -38,7 +43,7 @@
                 ?>
                 <select class="form-control" id="user_name">
                   <?
-                  output.append('<option value="new_user" selected>' + Data_Record[8] + '</option>')
+                  output.append('<option value="' + Data_Record[8] +'" selected>' + Data_Record[8] + '</option>')
                   ?>
                   <!--
                   <option value="new_user" selected>new_user</option>
@@ -67,9 +72,9 @@
                       var check_solo = check_type("ソロ", Data_Record[2]);
                       var check_middle = check_type("ミドル", Data_Record[2]);
                       var check_all = check_type("オール", Data_Record[2]);
-                      output.append('<label><input type="radio" name="radio1" id="solo" required ' + check_solo +'>ソロ-らぁ珍</label>');
-                      output.append('<label><input type="radio" name="radio1" id="middle" required ' + check_middle +'>ミドル-らぁ珍</label>');
-                      output.append('<label><input type="radio" name="radio1" id="all" required ' + check_all +'>オール-らぁ珍</label>');
+                      output.append('<label><input type="radio" name="radio1" id="type_solo" required ' + check_solo +'>ソロ-らぁ珍</label>');
+                      output.append('<label><input type="radio" name="radio1" id="type_middle" required ' + check_middle +'>ミドル-らぁ珍</label>');
+                      output.append('<label><input type="radio" name="radio1" id="type_all" required ' + check_all +'>オール-らぁ珍</label>');
                     ?>
                 </div>
                 <div class="help-block with-errors"></div>

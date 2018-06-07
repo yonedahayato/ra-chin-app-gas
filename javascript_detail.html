@@ -26,7 +26,8 @@ function getSelectList() {
 
                 for (var i = 0; i < result.data.length; i++) {
                     option = document.createElement('option');
-                    option.setAttribute('value', i + 1);
+                    //option.setAttribute('value', i + 1);
+                    option.setAttribute('value', result.data[i]);
                     option.innerHTML = result.data[i];
                     select.appendChild(option);
                 }
@@ -58,21 +59,27 @@ function sendData() {
         elemntIFrame.setAttribute('scrolling', 'no');
         elemntIFrame.setAttribute('frameborder', '0');
 
-        console.log("document.getElementById('select_id2').selectedIndex)", document.getElementById('select_id2').selectedIndex);
+        //console.log("document.getElementById('select_id2').selectedIndex)", document.getElementById('select_id2').selectedIndex);
 
         var data = [];
         data[0] = 'dummy';
-        data[1] = document.getElementById('input_id1').value;
-        data[2] = document.getElementById('input_id2').value;
-        data[3] = document.getElementById('input_id3').checked;
-        data[4] = document.getElementById('input_id4').checked;
-        data[5] = document.getElementById('input_id5').checked;
-        data[6] = document.getElementById('input_id6').checked;
-        data[7] = document.getElementById('input_id7').checked;
-        data[8] = document.getElementById('input_id8').checked;
-        data[9] = document.getElementById('select_id1').options[document.getElementById('select_id1').selectedIndex].text;
-        data[10] = getMultipleSelectedText(document.getElementById('select_id2').options);
-        data[11] = document.getElementById('select_id3').options[document.getElementById('select_id3').selectedIndex].text;
+        data[1] = document.getElementById('user_name').value;
+        data[2] = document.getElementById('plan_name').value;
+        
+        data[3] = document.getElementById('type_solo').checked;
+        data[4] = document.getElementById('type_middle').checked;
+        data[5] = document.getElementById('type_all').checked;
+        
+        data[6] = document.getElementById('candidate_date1').value;
+        data[7] = document.getElementById('candidate_date2').value;
+        data[8] = document.getElementById('candidate_date3').value;
+        
+        data[9] = document.getElementById('deadline').value;
+        //data[9] = document.getElementById('select_id1').options[document.getElementById('select_id1').selectedIndex].text;
+        //data[10] = getMultipleSelectedText(document.getElementById('select_id2').options);
+        //data[11] = document.getElementById('select_id3').options[document.getElementById('select_id3').selectedIndex].text;
+        
+        data[10] = document.getElementById("plan_number").value;
 
         console.log("data", data);
 
