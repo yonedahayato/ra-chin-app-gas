@@ -83,7 +83,8 @@ function include(filename) {
 
 function updateRecord(number) {
   var sheet = SpreadsheetApp.getActiveSheet();
-  var now = Date();
+  var now = new Date();
+  var now_str = Utilities.formatDate(now, 'Asia/Tokyo', 'yyyy/MM/dd HH:mm:ss');
   sheet.getRange(number+1, 7).clear()
-  sheet.getRange(number+1, 7).setValue(now)  
+  sheet.getRange(number+1, 7).setValue(now_str)
 }

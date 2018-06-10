@@ -4,6 +4,7 @@ function registerSSByFormData(data) {
 
   var datasheet = SpreadsheetApp.openById('1E2VMlYvO-8XFrT9nI7xKI5TNWTvUlJtuOavnwtoO-FI').getSheetByName('input');
   var now = new Date();
+  var now_str = Utilities.formatDate(now, 'Asia/Tokyo', 'yyyy/MM/dd HH:mm:ss');
 
   var i = datasheet.getLastRow() + 1;
   datasheet.getRange(i,  1).setValue(data[ 1]); // user_name
@@ -17,10 +18,9 @@ function registerSSByFormData(data) {
   datasheet.getRange(i,  7).setValue(data[ 7]); // candidate_date2
   datasheet.getRange(i,  8).setValue(data[ 8]); // candidate_date3
   datasheet.getRange(i,  9).setValue(data[ 9]); // deadline
-  datasheet.getRange(i, 10).setValue(Utilities.formatDate(now, 'Asia/Tokyo', 'yyyy/MM/dd HH:mm:ss'));
+  datasheet.getRange(i, 10).setValue(now_str);
   datasheet.getRange(i, 11).setValue(data[10]); // 企画no
   
-  Logger.log(data[3])
   if (data[3]){
     var type = "ソロ";
   }else if(data[4]){
@@ -31,12 +31,20 @@ function registerSSByFormData(data) {
     var type = "-"
   }
   datasheet.getRange(i, 12).setValue(type);
-  
+  datasheet.getRange(i, 13).setValue(data[11]); // store_name  
   result = true;
 
   // 候補日、締切日の送信
   post_Schedule(data[10], data[6], data[7], data[8], data[9])
-
+  
+  var update_data = [[data[2], type, "スケジュール"+data[10], data[11],"集合場所"+data[10] ,now_str, data[10], data[1]]];
+  // plan_name, type, schedule, store_name, gather, update_date, plan_number, user_name
+  update(update_data, data[10])　//data sheetの更新
+  Logger.log("finish to update")
+  // lineへの通知
+  post_SendLine(data[1], data[2], data[6], data[7], data[8], data[9])
+  // user_name, plan_name, candidate_date1, candidate_date2, candidate_date3,　dead_line
+  Logger.log("finish to send line")
   return {data: true};  
 }
 
@@ -91,4 +99,35 @@ function post_Schedule(schedule_number, candidate_date1, candidate_date2, candid
   };
   var response = UrlFetchApp.fetch(url, options);
   Logger.log("[post_Schedule]: response: "+response)
+}
+
+function　update (update_data, plan_number) {
+  var datasheet = SpreadsheetApp.openById('1E2VMlYvO-8XFrT9nI7xKI5TNWTvUlJtuOavnwtoO-FI').getSheetByName('data');
+  plan_number = Number(plan_number)
+
+  var cols = update_data[0].length;
+  Logger.log("cols: "+cols);
+  Logger.log(plan_number+1);
+  datasheet.getRange(plan_number+1,2,1,cols).setValues(update_data)
+}
+
+function post_SendLine(user_name, plan_name, candidate_date1, candidate_date2, candidate_date3,　dead_line){
+  var url = "https://script.google.com/macros/s/AKfycbyYF9YMvMyRi4BIIVlDo68vNKWqgaZCUedOJvob8qkrI2M-FQs/exec"
+
+  var payload = {
+    "user_name" : user_name,
+    "plan_name" : plan_name,
+    "candidate_date1" : candidate_date1,
+    "candidate_date2" : candidate_date2,
+    "candidate_date3" : candidate_date3,
+    "dead_line": dead_line
+  };
+
+  var options = {
+    "method" : "POST",
+    "payload" : payload
+  };
+  Logger.log("start_fetch")
+  var response = UrlFetchApp.fetch(url, options);
+  Logger.log("[post_SendLine]: response: "+response)
 }

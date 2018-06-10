@@ -82,6 +82,17 @@
         </div>
         
         <div class="form-group">
+            <label class="control-label col-xs-3" for="store_name">店</label>
+            
+            <div class="col-xs-9">
+                <?
+                output.append('<input type="text" class="form-control" id="store_name" value='+ Data_Record[4] +' required>')
+                ?>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        
+        <div class="form-group">
             <?
               var schedule_data = get_Schedule(number);
             ?>
