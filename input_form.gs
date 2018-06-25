@@ -19,7 +19,7 @@ function registerSSByFormData(data) {
   datasheet.getRange(i,  8).setValue(data[ 8]); // candidate_date3
   datasheet.getRange(i,  9).setValue(data[ 9]); // deadline
   datasheet.getRange(i, 10).setValue(now_str);
-  datasheet.getRange(i, 11).setValue(data[10]); // 企画no
+  datasheet.getRange(i, 11).setValue(data[10]); // plan_number
   
   if (data[3]){
     var type = "ソロ";
@@ -41,9 +41,10 @@ function registerSSByFormData(data) {
   // plan_name, type, schedule, store_name, gather, update_date, plan_number, user_name
   update(update_data, data[10])　//data sheetの更新
   Logger.log("finish to update")
+  
   // lineへの通知
-  post_SendLine(data[1], data[2], data[6], data[7], data[8], data[9])
-  // user_name, plan_name, candidate_date1, candidate_date2, candidate_date3,　dead_line
+  post_SendLine(data[1], data[2], data[10], data[6], data[7], data[8], data[9])
+  // user_name, plan_name, plan_number, candidate_date1, candidate_date2, candidate_date3,　dead_line
   Logger.log("finish to send line")
   return {data: true};  
 }
@@ -91,7 +92,8 @@ function post_Schedule(schedule_number, candidate_date1, candidate_date2, candid
     "candidate_date1" : candidate_date1,
     "candidate_date2" : candidate_date2,
     "candidate_date3" : candidate_date3,
-    "dead_line": dead_line
+    "dead_line": dead_line,
+    "message_type": "plan"
   };
   var options = {
     "method" : "POST",
@@ -111,12 +113,13 @@ function　update (update_data, plan_number) {
   datasheet.getRange(plan_number+1,2,1,cols).setValues(update_data)
 }
 
-function post_SendLine(user_name, plan_name, candidate_date1, candidate_date2, candidate_date3,　dead_line){
+function post_SendLine(user_name, plan_name, plan_number, candidate_date1, candidate_date2, candidate_date3,　dead_line){
   var url = "https://script.google.com/macros/s/AKfycbyYF9YMvMyRi4BIIVlDo68vNKWqgaZCUedOJvob8qkrI2M-FQs/exec"
 
   var payload = {
     "user_name" : user_name,
     "plan_name" : plan_name,
+    "plan_number": plan_number,
     "candidate_date1" : candidate_date1,
     "candidate_date2" : candidate_date2,
     "candidate_date3" : candidate_date3,
