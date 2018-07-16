@@ -123,7 +123,8 @@ function post_SendLine(user_name, plan_name, plan_number, candidate_date1, candi
     "candidate_date1" : candidate_date1,
     "candidate_date2" : candidate_date2,
     "candidate_date3" : candidate_date3,
-    "dead_line": dead_line
+    "dead_line": dead_line,
+    "message_type": "plan"
   };
 
   var options = {
